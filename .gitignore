@@ -1,0 +1,46 @@
+# IDE
+.idea/
+.vscode/
+.cursor/
+*.iml
+*.iws
+*.ipr
+
+# Build
+build/
+out/
+target/
+bin/
+
+# Gradle
+.gradle/
+!gradle-wrapper.jar
+gradle/
+
+# Claude
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Java
+*.class
+
+# Database
+*.db
+placeholder_cache.db
+
+# Run server
+run/
+
+# Libs
+libs/

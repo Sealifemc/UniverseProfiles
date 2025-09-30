@@ -1,0 +1,44 @@
+J'aimerais un plugin de profile 
+
+
+Commands:
+/profile <player> (ouvre le profil d'un joueur)
+/profile public (rend public son profil)
+/profile private (rend privée son profil)
+/profile reload (reload du plugin)
+/profile ( ouvre son propre profile)
+
+/profile admin open <player> [player] (l'ouvrir vers un autre joueur [player])
+/profiles admin forcepublic <player>
+/profiles admin forceprivate <player>
+/profiles admin give star <player> <amount> (Donne des étoiles a un joueur (sert juste de référence))
+
+Placeholders:
+%uprofiles_state% (savoir si le profil est public ou privé)
+%uprofiles_star% (Savoir le nombre d'étoile que le joueur a recu)
+
+Permissions:
+uprofiles.reload
+uprofiles.admin
+uprofiles.open (ouvre son profile)
+uprofiles.public (rend public son profil)
+uprofiles.private (rend privé son profil)
+uprofiles.private.bypass
+
+
+Les étoiles :
+En gros chaque joueur peut liker le profil 1 fois ce qui donne 1 étoile, (y aura un bouton cliquable dans le GUI)
+
+
+
+Le concept :
+
+
+J'aimerais que le plugin permettent d'afficher les objects de l'inventaire du joueur ciblé , comme le main hand, le bouclier, casque etc.. mais aussi les cosmétiques ! de HMCcosmetics par exemple !
+Je veux que tout soit customisable et le plus centralisé possible, le code doit etre ultra propre et pas de feature non demandé, la config doit etre simple et efficace et bien agancée, et aucun commentaire dans le code, et tout en anglais
+
+j'aimerais aussi un dossier languages avec EN_US et fr_FR pour les messages, j'aimerais une compatiblité redis et mysql, mais pas obligatoire ! il se mettra en SQLITE et doit prendre aussi en charge les joueurs hors ligne donc save a la déconnexion dans le cache, et que le plugin lis le cache, puis met de la DB au cache lors du start !
+
+Ultra think tout le temps
+
+j'aimerais aussi pouvoir configuré des boutons cliquable avec des executions de commande, le code doit 100% supporté Minimessages et placeholderAPI, utilise MCP context7 pour les docs, et doit use toujours les meilleurs methodes pour une bonne optimsiation

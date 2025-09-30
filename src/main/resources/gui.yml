@@ -1,0 +1,436 @@
+# ====================================
+# UniverseProfiles - GUI Configuration
+# ====================================
+# This file configures the profile GUI layout and content
+#
+# Available placeholders:
+# - %player_name% - Profile owner's name
+# - %viewer_name% - Viewer's name (also in title!)
+# - %uprofiles_star% - Player's star count
+# - %uprofiles_bio% - Player's biography
+# - %uprofiles_state% - Profile privacy state (Public/Private)
+# - PlaceholderAPI placeholders supported (e.g., %luckperms_groups%, %vault_eco_balance%)
+#
+# MiniMessage format supported for all text fields
+# Documentation: https://docs.advntr.dev/minimessage/format.html
+
+# GUI window title (supports MiniMessage format + PlaceholderAPI)
+# You can use conditional titles based on permissions/placeholders
+# If no condition matches, the "default" title is used
+titles:
+  default: "<shift:-8><glyph:gui_profile>"
+  # Example: VIP rank title with icon (permission condition)
+  # vip_title:
+  #   priority: 10
+  #   title: "<shift:-8><glyph:gui_profile><shift:-80><glyph:vip_icon>"
+  #   conditions:
+  #     is_vip:
+  #       type: permission
+  #       target: target
+  #       permission: "rank.vip"
+  # Example: MVP rank title (permission condition)
+  # mvp_title:
+  #   priority: 20
+  #   title: "<shift:-8><glyph:gui_profile><shift:-80><glyph:mvp_icon>"
+  #   conditions:
+  #     is_mvp:
+  #       type: permission
+  #       target: target
+  #       permission: "rank.mvp"
+  # Example: LuckPerms group title (placeholder condition)
+  # admin_title:
+  #   priority: 30
+  #   title: "<shift:-8><glyph:gui_profile><shift:-80><glyph:admin_icon>"
+  #   conditions:
+  #     is_admin:
+  #       type: placeholder
+  #       target: target
+  #       placeholder: "%luckperms_primary_group_name%"
+  #       operation: "equals"
+  #       value: "admin"
+  # Example: High level player title (placeholder with numeric comparison)
+  # highlevel_title:
+  #   priority: 5
+  #   title: "<shift:-8><glyph:gui_profile><shift:-80><glyph:star_icon>"
+  #   conditions:
+  #     high_level:
+  #       type: placeholder
+  #       target: target
+  #       placeholder: "%player_level%"
+  #       operation: ">="
+  #       value: "50"
+
+# Legacy single title (used if "titles" section doesn't exist)
+title: "<shift:-8><glyph:gui_profile>"
+
+# GUI size (must be multiple of 9, max 54)
+size: 36
+
+# Player inventory mode
+# When enabled, items can be placed in the player's inventory (bottom part)
+# Use "player-inv: true" and "player-slot: 0-35" on items
+# WARNING: Player inventory is backed up and restored on close/death/quit/shutdown
+player-inv: false
+
+# ====================================
+# SOUND SETTINGS
+# ====================================
+# Configure sounds for GUI interactions
+# Sound names: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+# You can also use custom sounds from resource packs (e.g., "minecraft:custom.sound")
+sounds:
+  open:
+    enabled: true
+    sound: BLOCK_CHEST_OPEN
+    volume: 0.5
+    pitch: 1.2
+  click:
+    enabled: false
+    sound: UI_BUTTON_CLICK
+    volume: 0.5
+    pitch: 1.0
+
+# ====================================
+# EQUIPMENT SLOTS
+# ====================================
+# Display player's armor and held items
+# - slot: GUI slot number (0-53)
+# - empty_config: Item shown when slot is empty
+equipments:
+  helmet:
+    slot: 6
+    empty_config:
+      material: LEATHER_HELMET
+      custom_model_data: 1
+      item_model: ""  # Example: "namespace:helmet_model" for 1.21.2+
+      display_name: "<gray>No Helmet</gray>"
+      lore:
+        - "<dark_gray>No helmet equipped</dark_gray>"
+  chestplate:
+    slot: 15
+    empty_config:
+      material: LEATHER_CHESTPLATE
+      custom_model_data: 1
+      display_name: "<gray>No Chestplate</gray>"
+      lore:
+        - "<dark_gray>No chestplate equipped</dark_gray>"
+  leggings:
+    slot: 24
+    empty_config:
+      material: LEATHER_LEGGINGS
+      custom_model_data: 1
+      display_name: "<gray>No Leggings</gray>"
+      lore:
+        - "<dark_gray>No leggings equipped</dark_gray>"
+  boots:
+    slot: 33
+    empty_config:
+      material: LEATHER_BOOTS
+      custom_model_data: 1
+      display_name: "<gray>No Boots</gray>"
+      lore:
+        - "<dark_gray>No boots equipped</dark_gray>"
+  main_hand:
+    slot: 17
+    empty_config:
+      material: STICK
+      custom_model_data: 1
+      display_name: "<gray>No Weapon</gray>"
+      lore:
+        - "<dark_gray>No weapon equipped</dark_gray>"
+  off_hand:
+    slot: 26
+    empty_config:
+      material: SHIELD
+      custom_model_data: 1
+      display_name: "<gray>No Shield</gray>"
+      lore:
+        - "<dark_gray>No offhand item equipped</dark_gray>"
+
+# ====================================
+# CUSTOM ITEMS
+# ====================================
+# Add custom items to the GUI
+#
+# Item Types:
+# 1. COSMETIC ITEM (requires cosmetics plugin)
+#    - type: Cosmetic slot name (HELMET, CHESTPLATE, LEGGINGS, BOOTS, BACKPACK, BALLOON, etc.)
+#    - slot: GUI slot number
+#    - empty_config: Item shown when no cosmetic is equipped
+#
+# 2. ACTION ITEM (clickable button)
+#    - material: Item material
+#    - slot: GUI slot number (or use "slots" for multiple slots)
+#    - display_name: Item name (MiniMessage format)
+#    - lore: Item lore lines (MiniMessage format)
+#    - custom_model_data: Custom model data (1.20.5+)
+#    - item_model: Item model (1.21.2+, format: "namespace:model_name")
+#    - actions: Click actions (LEFT_CLICK, RIGHT_CLICK, etc.)
+#
+# Available actions:
+# - COMMAND: Execute command(s) as console
+# - COMMAND_PLAYER: Execute command(s) as the viewer
+# - ADD_STAR: Give a star to the player
+# - REMOVE_STAR: Remove a star from the player
+# - CLOSE: Close the GUI
+# - NONE: Do nothing
+#
+# Conditions System:
+# - Add "conditions" section to show/hide items based on conditions
+# - Multiple items can be on the same slot, the first matching one is shown
+# - Use "priority" to control order (higher = checked first)
+# - Target options: "viewer" (who opens the GUI) or "target" (profile owner)
+#
+# Condition types:
+# - permission: Check if player has permission
+# - placeholder: Check PlaceholderAPI value
+#
+# Operations for placeholder:
+# - equals, not_equals (!=), contains, not_contains
+# - starts_with, ends_with
+# - greater_than (>), less_than (<), greater_or_equal (>=), less_or_equal (<=)
+#
+# Example:
+# conditions:
+#   check_vip:
+#     type: permission
+#     target: viewer
+#     permission: "vip.access"
+#   check_level:
+#     type: placeholder
+#     target: target
+#     placeholder: "%player_level%"
+#     operation: ">="
+#     value: "10"
+
+customs_items:
+  # Example: Player head decoration
+  custom_1:
+    material: PLAYER_HEAD
+    custom_model_data: 100
+    head: "%player_name%"  # Player name for skull texture
+    hideTooltip: true
+    hideAttributes: true
+    slot: 0
+    actions:
+      LEFT_CLICK:
+        action: NONE
+      RIGHT_CLICK:
+        action: NONE
+
+  # Example: Action button
+  custom_2:
+    material: GOLD_BLOCK
+    slot: 21
+    display_name: "<#ffb03b><bold>ᴛʀᴀᴅᴇ"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: COMMAND  # Execute commands on click
+          commands:
+          - "say trade command"
+
+  # Example: Star system button
+  star_button:
+    slot: 31
+    material: NETHER_STAR
+    display_name: "<gold>⭐ <#ffd13b><bold>ɢɪᴠᴇ sᴛᴀʀ"
+    lore:
+      - "<yellow>Stars: %uprofiles_star%"  # Shows player's star count
+      - ""
+      - "<gray>Click to give this player a star!"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: ADD_STAR  # Give star to player
+      RIGHT_CLICK:
+        action_1:
+          action: REMOVE_STAR  # Remove star from player
+
+  # Example: Information display with multiple slots
+  info:
+    slots:  # Multiple slots (fills from slot 3 to 4)
+    - 3-4
+    material: SUGAR
+    custom_model_data: 991
+    display_name: "<#8cdbab><bold>ɪɴғᴏʀᴍᴀᴛɪᴏɴ"
+    lore:
+      - "<#b9f0c0>Rank: %luckperms_groups%"  # PlaceholderAPI support
+      - "<#79e888>Money: $%vault_eco_balance%"
+      - ""
+      - "<#8cdbab>Bio:"
+      - "<gray>%uprofiles_bio%"  # Auto line-break based on config
+    actions: []  # No actions on click
+
+  # Cosmetic helmet slot
+  cosmetic_helmet:
+    type: HELMET  # Cosmetic slot type
+    slot: 7
+    empty_config:
+      material: LEATHER_HELMET
+      custom_model_data: 1
+      display_name: "<gray>No Helmet</gray>"
+      lore:
+        - "<dark_gray>No cosmetic helmet equipped</dark_gray>"
+
+  # Cosmetic backpack slot
+  cosmetic_backpack:
+    type: BACKPACK  # Cosmetic slot type
+    slot: 16
+    empty_config:
+      material: LEATHER_HORSE_ARMOR
+      custom_model_data: 1
+      display_name: "<gray>No Backpack</gray>"
+      lore:
+        - "<dark_gray>No cosmetic backpack equipped</dark_gray>"
+
+  # Cosmetic offhand slot
+  cosmetic_offhand:
+    type: OFFHAND  # Cosmetic slot type for offhand items
+    slot: 25
+    empty_config:
+      material: STICK
+      custom_model_data: 1
+      display_name: "<gray>No Offhand Item</gray>"
+      lore:
+        - "<dark_gray>No cosmetic offhand item equipped</dark_gray>"
+
+  # Cosmetic balloon slot
+  cosmetic_balloon:
+    type: BALLOON  # Cosmetic slot type
+    slot: 34
+    empty_config:
+      material: LEAD
+      custom_model_data: 1
+      display_name: "<gray>No Balloon</gray>"
+      lore:
+        - "<dark_gray>No cosmetic balloon equipped</dark_gray>"
+
+  # Example: Friend request button
+  friend_button:
+    slot: 22
+    material: PLAYER_HEAD
+    head: "%player_name%"
+    display_name: "<green>👤 <bold>Add Friend"
+    lore:
+      - "<gray>Send a friend request to"
+      - "<gray>this player!"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: COMMAND
+          commands:
+            - "friend add %player_name%"  # Requires friend plugin
+
+  # Example: Send private message button
+  message_button:
+    slot: 28
+    material: WRITABLE_BOOK
+    display_name: "<aqua>✉ <bold>Send Message"
+    lore:
+      - "<gray>Click to send a private"
+      - "<gray>message to this player!"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: COMMAND
+          commands:
+            - "msg %player_name% "  # Opens chat to send message
+
+  # Example: Trade request button
+  trade_button:
+    slot: 29
+    material: EMERALD
+    display_name: "<yellow>💰 <bold>Trade Request"
+    lore:
+      - "<gray>Send a trade request to"
+      - "<gray>this player"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: COMMAND
+          commands:
+            - "trade %player_name%"  # Requires trade plugin
+
+  # Example: Party invite button
+  party_button:
+    slot: 30
+    material: CAKE
+    display_name: "<light_purple>🎉 <bold>Party Invite"
+    lore:
+      - "<gray>Invite this player to"
+      - "<gray>your party!"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: COMMAND
+          commands:
+            - "party invite %player_name%"  # Requires party plugin
+
+  # Example: Conditional items on same slot (VIP vs Normal)
+  # VIP button shown only for VIP players (priority 10)
+  vip_button:
+    slot: 32
+    priority: 10
+    material: DIAMOND
+    display_name: "<aqua><bold>VIP Menu"
+    lore:
+      - "<gold>Access VIP features!"
+    conditions:
+      is_vip:
+        type: permission
+        target: viewer
+        permission: "vip.access"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: COMMAND
+          commands:
+            - "vip menu"
+
+  # Normal button shown for non-VIP (priority 0, fallback)
+  normal_button:
+    slot: 32
+    priority: 0
+    material: COAL
+    display_name: "<gray>Become VIP"
+    lore:
+      - "<gray>Click to see VIP benefits!"
+    actions:
+      LEFT_CLICK:
+        action_1:
+          action: COMMAND
+          commands:
+            - "vip info"
+
+  # Example: Player inventory item (requires player-inv: true)
+  # player_inv_close:
+  #   player-inv: true
+  #   player-slot: 8
+  #   material: BARRIER
+  #   display_name: "<red><bold>Close"
+  #   lore:
+  #     - "<gray>Click to close the profile"
+  #   actions:
+  #     LEFT_CLICK:
+  #       action_1:
+  #         action: CLOSE
+
+  # Example: Button with custom sound effect
+  # sound_button:
+  #   slot: 35
+  #   material: NOTE_BLOCK
+  #   display_name: "<gold>Play Sound"
+  #   lore:
+  #     - "<gray>Click to play a sound!"
+  #   actions:
+  #     LEFT_CLICK:
+  #       action_1:
+  #         action: SOUND
+  #         sound: ENTITY_PLAYER_LEVELUP
+  #         volume: 1.0
+  #         pitch: 1.0
+  #       action_2:
+  #         action: COMMAND
+  #         commands:
+  #           - "say %viewer_name% played a sound!"

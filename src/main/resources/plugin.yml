@@ -1,0 +1,33 @@
+name: UniverseProfiles
+version: '${version}'
+main: fr.ax_dev.universeProfiles.UniverseProfiles
+api-version: '1.21'
+folia-supported: true
+author: ax_dev
+softdepend: [PlaceholderAPI, HMCCosmetics]
+
+commands:
+  profile:
+    description: Profile management command
+    usage: /<command> [player]
+    permission: uprofiles.open
+
+permissions:
+  uprofiles.admin:
+    description: Access to all admin commands
+    default: op
+  uprofiles.open:
+    description: Open profiles
+    default: op
+  uprofiles.public:
+    description: Make profile public
+    default: op
+  uprofiles.private:
+    description: Make profile private
+    default: op
+  uprofiles.private.bypass:
+    description: Bypass private profiles
+    default: op
+  uprofiles.reload:
+    description: Reload the plugin
+    default: op

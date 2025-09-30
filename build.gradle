@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+    id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("com.gradleup.shadow") version "8.3.5"
+}
+
+group = 'fr.ax_dev'
+version = '1.4.3'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "placeholderapi"
+        url = "https://repo.extendedclip.com/content/repositories/placeholderapi/"
+    }
+    maven {
+        name = "codemc-repo"
+        url = "https://repo.codemc.org/repository/maven-public/"
+    }
+    maven {
+        name = "jitpack"
+        url = "https://jitpack.io"
+    }
+}
+
+dependencies {
+    compileOnly("io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT")
+    compileOnly("me.clip:placeholderapi:2.11.6")
+    implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation("de.tr7zw:item-nbt-api:2.13.2")
+    implementation("net.kyori:adventure-api:4.17.0")
+    implementation("net.kyori:adventure-text-minimessage:4.17.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
+    implementation("net.kyori:adventure-text-serializer-plain:4.17.0")
+    implementation("com.zaxxer:HikariCP:5.1.0")
+    implementation("redis.clients:jedis:5.1.2")
+    implementation("org.apache.commons:commons-pool2:2.12.0")
+    compileOnly files('libs/hmccosmetics-api/build/libs/HMCCosmetics-API-2.8.1-api.jar')
+    compileOnly("com.github.sculmix:API-ECosmetics:1.0.1")
+}
+
+tasks {
+    runServer {
+        minecraftVersion("1.21")
+    }
+
+    shadowJar {
+        archiveClassifier.set("")
+        relocate("org.bstats", "fr.ax_dev.bstats")
+        relocate("de.tr7zw.changeme.nbtapi", "fr.ax_dev.nbtapi")
+    }
+
+    build {
+        dependsOn(shadowJar)
+    }
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}

@@ -1,0 +1,29 @@
+prefix: "<gradient:#FF0080:#8000FF>[UniverseProfiles]</gradient> "
+
+messages:
+  no_permission: "<red>Vous n'avez pas la permission d'utiliser cette commande !</red>"
+  player_not_found: "<red>Joueur %player% introuvable !</red>"
+  profile_private: "<red>Le profil de ce joueur est privé !</red>"
+  profile_now_public: "<green>Votre profil est maintenant public !</green>"
+  profile_now_private: "<green>Votre profil est maintenant privé !</green>"
+  star_given: "<green>Vous avez donné une étoile à %player% !</green>"
+  star_received: "<gold>%player% vous a donné une étoile ! ⭐</gold>"
+  already_starred: "<red>Vous avez déjà donné une étoile à ce joueur !</red>"
+  cannot_star_self: "<red>Vous ne pouvez pas vous donner une étoile !</red>"
+  reload_success: "<green>Plugin rechargé avec succès !</green>"
+  bio_updated: "<green>Votre bio a été mise à jour !</green>"
+  bio_cleared: "<green>Votre bio a été effacée !</green>"
+
+commands:
+  usage:
+    main: "<gray>Utilisation : /profile [joueur]</gray>"
+    admin: "<gray>Utilisation : /profile admin <sous-commande> [args]</gray>"
+    bio: "<gray>Utilisation : /profile bio <texte></gray>"
+
+privacy:
+  public: "<green>Public</green>"
+  private: "<red>Privé</red>"
+
+gui:
+  loading: "<yellow>Chargement du profil...</yellow>"
+  error: "<red>Erreur lors du chargement du profil !</red>"

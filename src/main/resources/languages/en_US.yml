@@ -1,0 +1,29 @@
+prefix: "<gradient:#FF0080:#8000FF>[UniverseProfiles]</gradient> "
+
+messages:
+  no_permission: "<red>You don't have permission to use this command!</red>"
+  player_not_found: "<red>Player %player% not found!</red>"
+  profile_private: "<red>This player's profile is private!</red>"
+  profile_now_public: "<green>Your profile is now public!</green>"
+  profile_now_private: "<green>Your profile is now private!</green>"
+  star_given: "<green>You gave a star to %player%!</green>"
+  star_received: "<gold>%player% gave you a star! ⭐</gold>"
+  already_starred: "<red>You already gave a star to this player!</red>"
+  cannot_star_self: "<red>You cannot give yourself a star!</red>"
+  reload_success: "<green>Plugin reloaded successfully!</green>"
+  bio_updated: "<green>Your bio has been updated!</green>"
+  bio_cleared: "<green>Your bio has been cleared!</green>"
+
+commands:
+  usage:
+    main: "<gray>Usage: /profile [player]</gray>"
+    admin: "<gray>Usage: /profile admin <subcommand> [args]</gray>"
+    bio: "<gray>Usage: /profile bio <text></gray>"
+
+privacy:
+  public: "<green>Public</green>"
+  private: "<red>Private</red>"
+
+gui:
+  loading: "<yellow>Loading profile...</yellow>"
+  error: "<red>Error loading profile!</red>"
