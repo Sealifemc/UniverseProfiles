@@ -2,7 +2,6 @@ package fr.ax_dev.universeProfiles.gui;
 
 import fr.ax_dev.universeProfiles.UniverseProfiles;
 import fr.ax_dev.universeProfiles.integrations.ECosmeticsIntegration;
-import fr.ax_dev.universeProfiles.integrations.HMCCosmeticsIntegration;
 import fr.ax_dev.universeProfiles.models.PlayerProfile;
 import fr.ax_dev.universeProfiles.util.InventoryUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -136,7 +135,6 @@ public class ItemBuilder {
         text = text.replace("%uprofiles_state%", state);
 
         Player targetPlayer = Bukkit.getPlayer(profile.getUuid());
-        text = processCosmeticPlaceholders(text, targetPlayer);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             text = plugin.getPlaceholderCacheManager().getPlaceholder(profile.getUuid(), text, targetPlayer);
@@ -167,22 +165,6 @@ public class ItemBuilder {
         return result.toString();
     }
 
-    private String processCosmeticPlaceholders(String text, Player targetPlayer) {
-        HMCCosmeticsIntegration hmcIntegration = plugin.getHMCCosmeticsIntegration();
-        ECosmeticsIntegration eIntegration = plugin.getECosmeticsIntegration();
-
-        if (hmcIntegration != null && hmcIntegration.isEnabled() && targetPlayer != null) {
-            text = text.replace("%hmccosmetics_total%", String.valueOf(hmcIntegration.getTotalCosmeticsCount(targetPlayer)))
-                    .replace("%hmccosmetics_equipped%", String.valueOf(hmcIntegration.getEquippedCosmetics(targetPlayer).size()));
-        } else if (eIntegration != null && eIntegration.isEnabled() && targetPlayer != null) {
-            text = text.replace("%hmccosmetics_total%", String.valueOf(eIntegration.getTotalCosmeticsCount(targetPlayer)))
-                    .replace("%hmccosmetics_equipped%", String.valueOf(eIntegration.getEquippedCosmetics(targetPlayer).size()));
-        } else {
-            text = text.replace("%hmccosmetics_total%", "N/A").replace("%hmccosmetics_equipped%", "N/A");
-        }
-        return text;
-    }
-
     public String processTitlePlaceholders(String text, Player profileOwner) {
         text = text.replace("%player_name%", profile.getPlayerName());
         text = text.replace("%viewer_name%", viewer.getName());
@@ -192,9 +174,6 @@ public class ItemBuilder {
                 plugin.getLanguageManager().getMessage("privacy.public") :
                 plugin.getLanguageManager().getMessage("privacy.private");
         text = text.replace("%uprofiles_state%", state);
-
-        Player targetPlayer = profileOwner != null ? profileOwner : Bukkit.getPlayer(profile.getUuid());
-        text = processCosmeticPlaceholders(text, targetPlayer);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             text = PlaceholderAPI.setPlaceholders(viewer, text);

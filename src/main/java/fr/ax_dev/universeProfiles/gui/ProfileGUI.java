@@ -2,10 +2,8 @@ package fr.ax_dev.universeProfiles.gui;
 
 import fr.ax_dev.universeProfiles.UniverseProfiles;
 import fr.ax_dev.universeProfiles.integrations.ECosmeticsIntegration;
-import fr.ax_dev.universeProfiles.integrations.HMCCosmeticsIntegration;
 import fr.ax_dev.universeProfiles.models.PlayerProfile;
 import fr.ax_dev.universeProfiles.util.InventoryUtil;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -222,8 +220,6 @@ public class ProfileGUI implements InventoryHolder, Listener {
     private void setupSingleItem(ConfigurationSection item, int slot) {
         if (item.contains("your_slot")) {
             setupInventorySlot(item, slot);
-        } else if (item.contains("type")) {
-            setupCosmeticItem(item, slot);
         } else {
             inventory.setItem(slot, itemBuilder.buildActionItem(item));
         }
@@ -249,57 +245,6 @@ public class ProfileGUI implements InventoryHolder, Listener {
             }
         }
         inventory.setItem(slot, itemBuilder.buildEmptyItem(item.getConfigurationSection("empty_config"), "Empty"));
-    }
-
-    private void setupCosmeticItem(ConfigurationSection item, int slot) {
-        String type = item.getString("type", "");
-        Player profileOwner = Bukkit.getPlayer(profile.getUuid());
-
-        if (profileOwner == null) {
-            inventory.setItem(slot, itemBuilder.buildEmptyItem(item.getConfigurationSection("empty_config"), type));
-            return;
-        }
-
-        ItemStack cosmeticItem = getCosmeticItem(profileOwner, type);
-        if (cosmeticItem == null || cosmeticItem.getType() == Material.AIR) {
-            inventory.setItem(slot, itemBuilder.buildEmptyItem(item.getConfigurationSection("empty_config"), type));
-            return;
-        }
-
-        ItemStack clonedItem = cosmeticItem.clone();
-        ItemMeta meta = clonedItem.getItemMeta();
-        if (meta != null) {
-            if (meta.hasDisplayName()) {
-                Component displayName = InventoryUtil.getDisplayName(meta);
-                if (displayName != null) {
-                    InventoryUtil.setDisplayName(meta, itemBuilder.getMiniMessage().deserialize("<!italic><white>").append(displayName));
-                }
-            }
-            if (meta.hasLore()) {
-                List<Component> lore = InventoryUtil.getLore(meta);
-                if (lore != null) {
-                    List<Component> newLore = new ArrayList<>();
-                    for (Component line : lore) {
-                        newLore.add(itemBuilder.getMiniMessage().deserialize("<!italic><white>").append(line));
-                    }
-                    InventoryUtil.setLore(meta, newLore);
-                }
-            }
-            clonedItem.setItemMeta(meta);
-        }
-        inventory.setItem(slot, clonedItem);
-    }
-
-    private ItemStack getCosmeticItem(Player player, String type) {
-        HMCCosmeticsIntegration hmcIntegration = plugin.getHMCCosmeticsIntegration();
-        ECosmeticsIntegration eIntegration = plugin.getECosmeticsIntegration();
-
-        if (hmcIntegration != null && hmcIntegration.isEnabled()) {
-            return hmcIntegration.getCosmeticItemBySlot(player, type);
-        } else if (eIntegration != null && eIntegration.isEnabled()) {
-            return eIntegration.getCosmeticItemBySlot(player, type);
-        }
-        return null;
     }
 
     public void open() {

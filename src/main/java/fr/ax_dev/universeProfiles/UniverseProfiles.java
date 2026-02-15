@@ -9,7 +9,6 @@ import fr.ax_dev.universeProfiles.config.LanguageManager;
 import fr.ax_dev.universeProfiles.database.DatabaseManager;
 import fr.ax_dev.universeProfiles.database.DatabaseType;
 import fr.ax_dev.universeProfiles.integrations.ECosmeticsIntegration;
-import fr.ax_dev.universeProfiles.integrations.HMCCosmeticsIntegration;
 import fr.ax_dev.universeProfiles.listeners.PlayerListener;
 import fr.ax_dev.universeProfiles.managers.InventoryBackupManager;
 import fr.ax_dev.universeProfiles.managers.ProfileManager;
@@ -30,7 +29,6 @@ public final class UniverseProfiles extends JavaPlugin {
     private ConditionManager conditionManager;
     private InventoryBackupManager inventoryBackupManager;
     private SoundManager soundManager;
-    private HMCCosmeticsIntegration hmcCosmeticsIntegration;
     private ECosmeticsIntegration eCosmeticsIntegration;
 
     @Override
@@ -115,9 +113,7 @@ public final class UniverseProfiles extends JavaPlugin {
     private void registerIntegrations() {
         String cosmeticPlugin = getConfig().getString("settings.cosmetics_plugin", "NONE");
 
-        if (cosmeticPlugin.equalsIgnoreCase("HMCCOSMETICS")) {
-            hmcCosmeticsIntegration = new HMCCosmeticsIntegration(this);
-        } else if (cosmeticPlugin.equalsIgnoreCase("ECOSMETICS")) {
+        if (cosmeticPlugin.equalsIgnoreCase("ECOSMETICS")) {
             eCosmeticsIntegration = new ECosmeticsIntegration(this);
         } else {
             getLogger().info("No cosmetics plugin integration enabled");
@@ -158,21 +154,8 @@ public final class UniverseProfiles extends JavaPlugin {
         return profileManager;
     }
 
-    public HMCCosmeticsIntegration getHMCCosmeticsIntegration() {
-        return hmcCosmeticsIntegration;
-    }
-
     public ECosmeticsIntegration getECosmeticsIntegration() {
         return eCosmeticsIntegration;
-    }
-
-    public Object getCosmeticsIntegration() {
-        if (hmcCosmeticsIntegration != null && hmcCosmeticsIntegration.isEnabled()) {
-            return hmcCosmeticsIntegration;
-        } else if (eCosmeticsIntegration != null && eCosmeticsIntegration.isEnabled()) {
-            return eCosmeticsIntegration;
-        }
-        return null;
     }
 
     public PlaceholderCacheManager getPlaceholderCacheManager() {
